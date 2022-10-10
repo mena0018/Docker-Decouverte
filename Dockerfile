@@ -45,3 +45,4 @@ RUN set -eux; \
 
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
 RUN ln -s $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
+COPY /docker/php/conf.d/prod.ini $PHP_INI_DIR/conf.d/api.ini
