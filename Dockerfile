@@ -42,3 +42,5 @@ RUN set -eux; \
     apk add --no-cache --virtual .api-phpexts-rundeps $runDeps; \
     \
     apk del .build-deps
+
+COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
