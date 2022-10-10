@@ -44,3 +44,4 @@ RUN set -eux; \
     apk del .build-deps
 
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
+RUN ln -s $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
