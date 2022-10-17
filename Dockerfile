@@ -82,3 +82,5 @@ RUN set -eux; \
     chmod +x bin/console; sync \
 
 VOLUME ["/srv/api/var"]
+
+COPY ./docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
