@@ -54,3 +54,4 @@ RUN set -eux; \
     composer clear-cache \
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 WORKDIR /src/api
+APP_ENV=${ENV}
