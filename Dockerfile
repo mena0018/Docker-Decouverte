@@ -53,5 +53,5 @@ RUN set -eux; \
     composer global require "symfony/flex" --prefer-dist --no-progress --classmap-authoritative; \
     composer clear-cache \
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
-WORKDIR /src/api
+WORKDIR /srv/api
 APP_ENV=${ENV}
