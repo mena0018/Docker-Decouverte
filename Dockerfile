@@ -56,3 +56,6 @@ ENV PATH="${PATH}:/root/.composer/vendor/bin"
 WORKDIR /srv/api
 APP_ENV=${ENV}
 COPY composer.json composer.lock symfony.lock ./
+RUN set -eux; \
+    composer install --prefer-dist --no-dev --no-scripts --no-progress; \
+    composer clear-cache
