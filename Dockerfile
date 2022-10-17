@@ -95,3 +95,4 @@ CMD ["php-fpm"]
 FROM nginx:${NGINX_VERSION}-alpine AS api_nginx
 COPY docker/nginx/conf.d /etc/nginx/conf.d
 WORKDIR /srv/api/public
+COPY --from=api_php /srv/api/public ./
