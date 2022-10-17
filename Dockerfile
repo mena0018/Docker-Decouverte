@@ -45,19 +45,32 @@ RUN set -eux; \
     apk del .build-deps
 
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
+
 RUN ln -s $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 COPY ./docker/php/conf.d/prod.ini $PHP_INI_DIR/conf.d/api.ini
+
 ENV COMPOSER_ALLOW_SUPERUSER=1
+
 RUN set -eux; \
     composer global config --no-plugins allow-plugins.symfony/flex true; \
     composer global require "symfony/flex" --prefer-dist --no-progress --classmap-authoritative; \
     composer clear-cache \
+
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
+
 WORKDIR /srv/api
 APP_ENV=${ENV}
 COPY composer.json composer.lock symfony.lock ./
 RUN set -eux; \
     composer install --prefer-dist --no-dev --no-scripts --no-progress; \
-    composer clear-cache
+    composer clear-cache \
+
 COPY .env ./
 RUN composer dump-env prod
+
+COPY bin/ ./
+COPY config/ ./
+COPY migrations/ ./
+COPY public/ ./
+COPY src/ ./
+COPY templates/ ./
