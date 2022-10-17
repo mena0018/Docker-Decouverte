@@ -1,5 +1,6 @@
 ARG PHP_VERSION=8.0
 ARG ENV=prod
+ARG NGINX_VERSION=1.18.0
 
 FROM php:${PHP_VERSION}-fpm-alpine AS api_php
 RUN apk add --no-cache \
@@ -89,3 +90,6 @@ RUN set -eux; \
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
 CMD ["php-fpm"]
+
+
+FROM nginx:${NGINX_VERSION}-alpine AS api_nginx
