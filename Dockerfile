@@ -1,5 +1,4 @@
 ARG PHP_VERSION=8.0
-ARG ENV=prod
 ARG NGINX_VERSION=1.18.0
 
 FROM php:${PHP_VERSION}-fpm-alpine AS api_php
@@ -45,7 +44,7 @@ RUN set -eux; \
     \
     apk del .build-deps
 
-COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 RUN ln -s $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 COPY ./docker/php/conf.d/prod.ini $PHP_INI_DIR/conf.d/api.ini
@@ -55,40 +54,40 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN set -eux; \
     composer global config --no-plugins allow-plugins.symfony/flex true; \
     composer global require "symfony/flex" --prefer-dist --no-progress --classmap-authoritative; \
-    composer clear-cache \
+    composer clear-cache
 
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
 WORKDIR /srv/api
-APP_ENV=${ENV}
+ARG APP_ENV=prod
 COPY composer.json composer.lock symfony.lock ./
 RUN set -eux; \
     composer install --prefer-dist --no-dev --no-scripts --no-progress; \
-    composer clear-cache \
+    composer clear-cache
 
 COPY .env ./
 RUN composer dump-env prod
 
-COPY bin/ ./
-COPY config/ ./
-COPY migrations/ ./
-COPY public/ ./
-COPY src/ ./
-COPY templates/ ./
+COPY bin bin/
+COPY config config/
+COPY migrations migrations/
+COPY public public/
+COPY src src/
+COPY templates templates/
 
 RUN set -eux; \
     mkdir -p var/cache var/log; \
     composer dump-autoload --classmap-authoritative --no-dev; \
     composer run-script --no-dev post-install-cmd; \
-    chmod +x bin/console; sync \
+    chmod +x bin/console; sync
 
 VOLUME ["/srv/api/var"]
 
 COPY ./docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN set -eux; \
-    chmod +x /usr/local/bin/docker-entrypoint \
+    chmod +x /usr/local/bin/docker-entrypoint;
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
+ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
 
