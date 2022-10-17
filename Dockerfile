@@ -81,3 +81,4 @@ RUN set -eux; \
     composer run-script --no-dev post-install-cmd; \
     chmod +x bin/console; sync \
 
+VOLUME ["/srv/api/var"]
