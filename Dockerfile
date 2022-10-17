@@ -93,3 +93,4 @@ CMD ["php-fpm"]
 
 
 FROM nginx:${NGINX_VERSION}-alpine AS api_nginx
+COPY docker/nginx/conf.d /etc/nginx/conf.d
