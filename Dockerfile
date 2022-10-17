@@ -1,4 +1,5 @@
 ARG PHP_VERSION=8.0
+ARG ENV=prod
 
 FROM php:${PHP_VERSION}-fpm-alpine AS api_php
 RUN apk add --no-cache \
@@ -52,3 +53,4 @@ RUN set -eux; \
     composer global require "symfony/flex" --prefer-dist --no-progress --classmap-authoritative; \
     composer clear-cache \
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
+WORKDIR /src/api
