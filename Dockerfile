@@ -55,3 +55,4 @@ RUN set -eux; \
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 WORKDIR /srv/api
 APP_ENV=${ENV}
+COPY composer.json composer.lock symfony.lock ./
