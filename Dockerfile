@@ -84,3 +84,5 @@ RUN set -eux; \
 VOLUME ["/srv/api/var"]
 
 COPY ./docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN set -eux; \
+    chmod +x /usr/local/bin/docker-entrypoint \
