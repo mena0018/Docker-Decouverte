@@ -59,3 +59,4 @@ COPY composer.json composer.lock symfony.lock ./
 RUN set -eux; \
     composer install --prefer-dist --no-dev --no-scripts --no-progress; \
     composer clear-cache
+COPY .env ./
