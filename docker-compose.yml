@@ -9,3 +9,14 @@ services:
       POSTGRES_PASSWORD: !ChangeMe!
     volumes:
       - ./docker/db/data:/var/lib/postgresql/data
+
+  php:
+    build:
+      context: .
+      target: api_php
+    depends_on:
+      - db
+    volumes:
+      - .:/srv/api
+      - ./docker/php/conf.d/dev.ini:/usr/local/etc/php/conf.d/api.ini
+
