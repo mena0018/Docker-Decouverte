@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_DB: api
       POSTGRES_USER: api-platform
-      POSTGRES_PASSWORD: !ChangeMe!
+      POSTGRES_PASSWORD: ChangeMe
     volumes:
       - ./docker/db/data:/var/lib/postgresql/data
 
@@ -20,3 +20,13 @@ services:
       - .:/srv/api
       - ./docker/php/conf.d/dev.ini:/usr/local/etc/php/conf.d/api.ini
 
+  api:
+    build:
+      context: .
+      target: api_nginx
+    depends_on:
+      - php
+    volumes:
+      - ./public:/srv/api/public:ro   # :ro => short syntaxe for Read Only
+    ports:
+      - "8082:80"
