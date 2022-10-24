@@ -23,3 +23,11 @@ services:
       DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is not set or empty}
       TRUSTED_HOSTS: ${TRUSTED_HOSTS:?TRUSTED_HOSTS ois not set or empty}
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
+
+  api:
+    image: ${NGINX_IMAGE:?NGINX_IMAGE is not set or empty}:${APP_VERSION:?APP_VERSION is not set or empty}
+    restart: always
+    depends_on:
+      - php
+    ports:
+      - "8083:80"
