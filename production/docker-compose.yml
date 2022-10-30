@@ -3,12 +3,14 @@ version: '3.4'
 services:
   db:
     image: postgres:13-alpine
+    restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is not set or empty}
       POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is not set or empty}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is not set or empty}
     volumes:
-      - ./home/Users/mena0018/production/docker/db/data:/var/lib/postgresql/data
+      - ./docker/db/data:/var/lib/postgresql/data
+
 
   php:
     image: ${PHP_IMAGE:?PHP_IMAGE is not set or empty}:${APP_VERSION:?APP_VERSION is not set or empty}
